@@ -1,5 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { TOKEN } from '@/config'
+import { Storage } from '@/utils'
 
 Vue.use(VueRouter)
 
@@ -10,6 +12,8 @@ VueRouter.prototype.push = function push(location) {
 }
 
 const InitTest = () => import('@/components/init-test')
+const UserSignup = () => import('@/views/user/user-signup')
+const UserSignin = () => import('@/views/user/user-signin')
 const NotFound = () => import('@/views/not-fonud')
 
 const Router = new VueRouter({
@@ -17,6 +21,22 @@ const Router = new VueRouter({
     {
       path: '/',
       component: InitTest
+    },
+    {
+      path: '/user/signin',
+      component: UserSignin,
+      meta: {
+        isPublic: true,
+        strTitle: '用户登录'
+      }
+    },
+    {
+      path: '/user/signup',
+      component: UserSignup,
+      meta: {
+        isPublic: true,
+        strTitle: '用户注册'
+      }
     },
     {
       path: '/404',
@@ -37,6 +57,16 @@ const Router = new VueRouter({
       }
     }
   ]
+})
+
+Router.beforeEach((to, from, next) => {
+  if (to.meta && to.meta.strTitle) {
+    document.title = `${to.meta.strTitle} - OOCL管理系统`
+  }
+  if (!to.meta.isPublic && !Storage.get(TOKEN)) {
+    next('/user/signin')
+  }
+  next()
 })
 
 export default Router

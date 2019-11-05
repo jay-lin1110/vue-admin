@@ -5,8 +5,28 @@
 </template>
 
 <script>
+import jwtDecode from 'jwt-decode'
+import { mapActions } from 'vuex'
+import { TOKEN } from '@/config'
+import { Storage, Validator } from '@/utils'
+
 export default {
-  name: 'app'
+  name: 'app',
+  methods: {
+    ...mapActions(['setUser', 'setAuthenticated']),
+    initUser() {
+      const token = Storage.get(TOKEN)
+      if (token) {
+        const decode = jwtDecode(token)
+        const isAuthenticated = !Validator.isEmpty(decode)
+        this.setUser(decode)
+        this.setAuthenticated(isAuthenticated)
+      }
+    }
+  },
+  created() {
+    this.initUser()
+  }
 }
 </script>
 

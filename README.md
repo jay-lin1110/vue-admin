@@ -7,7 +7,7 @@ npm install
 
 ### Compiles and hot-reloads for development
 ```
-npm run serve
+npm run serve or npm run dev
 ```
 
 ### Compiles and minifies for production
@@ -25,5 +25,15 @@ npm run test:e2e
 npm run lint
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+### Feature branch
+
+#### dev-signin branch
+- user signup
+- user signin
+- validate form
+- check token
+- localStorage cache
+- router permission
+
+
+
