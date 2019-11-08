@@ -15,12 +15,6 @@ const getUserById = id => request({
   method: 'get'
 })
 
-const postUser = data => request({
-  url: '/api/admin/users',
-  method: 'post',
-  data
-})
-
 const putUser = params => request({
   url: `/api/admin/users/${params.id}`,
   method: 'put',
@@ -48,7 +42,6 @@ export {
   countUsers,
   getUsers,
   getUserById,
-  postUser,
   putUser,
   deleteUser,
   signIn,

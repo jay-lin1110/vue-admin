@@ -1,4 +1,4 @@
-$colors: ( 'primary': #db9e3f, 'info': #4b67af, 'danger': #791a15, 'blue-1': #1f3695, 'blue': #4394e4, 'white': #fff, 'white-1': #fcfcfc, 'white-2': #eceef0, 'light': #f9f9f9, 'light-1': #d4d9de, 'grey': #999, 'grey-1': #666, 'dark-1': #343440, 'dark': #222, 'black': #000, );
+$colors: ( 'primary': #d23246, 'info': #4b67af, 'danger': #e25061, 'blue-1': #1f3695, 'blue': #4394e4, 'white': #fff, 'white-1': #fcfcfc, 'white-2': #eceef0, 'light': #f9f9f9, 'light-1': #d4d9de, 'gray': #999, 'grey': #eee, 'dark-1': #343440, 'dark': #333, 'black': #000, );
 $border-color: map-get($colors, 'light-1');
 // font size
 $base-font-size: 1rem;

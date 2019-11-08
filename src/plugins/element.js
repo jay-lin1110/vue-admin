@@ -8,9 +8,11 @@ import {
   Menu,
   Submenu,
   MenuItem,
-  MenuItemGroup,
+  // MenuItemGroup,
   Input,
   InputNumber,
+  Avatar,
+  Drawer,
   // Autocomplete,
   // Radio,
   // RadioGroup,
@@ -19,8 +21,8 @@ import {
   // CheckboxButton,
   // CheckboxGroup,
   // Switch,
-  // Select,
-  // Option,
+  Select,
+  Option,
   // OptionGroup,
   Button,
   ButtonGroup,
@@ -29,8 +31,8 @@ import {
   DatePicker,
   TimeSelect,
   TimePicker,
-  // Popover,
-  // Tooltip,
+  Popover,
+  Tooltip,
   Breadcrumb,
   BreadcrumbItem,
   Form,
@@ -54,8 +56,8 @@ import {
   // Step,
   // Carousel,
   // CarouselItem,
-  Collapse,
-  CollapseItem,
+  // Collapse,
+  // CollapseItem,
   // Cascader,
   // ColorPicker,
   // Transfer,
@@ -73,14 +75,15 @@ import {
   // Backtop,
   PageHeader,
   // CascaderPanel,
-  Loading,
-  // MessageBox,
+  // Loading,
+  MessageBox,
   // Notification
   Message
 } from 'element-ui'
 
 Vue.use(Pagination)
 Vue.use(Dialog)
+Vue.use(Option)
 // Vue.use(Autocomplete)
 Vue.use(Dropdown)
 Vue.use(DropdownMenu)
@@ -88,9 +91,11 @@ Vue.use(DropdownItem)
 Vue.use(Menu)
 Vue.use(Submenu)
 Vue.use(MenuItem)
-Vue.use(MenuItemGroup)
+// Vue.use(MenuItemGroup)
 Vue.use(Input)
 Vue.use(InputNumber)
+Vue.use(Avatar)
+Vue.use(Drawer)
 // Vue.use(Radio)
 // Vue.use(RadioGroup)
 // Vue.use(RadioButton)
@@ -98,8 +103,7 @@ Vue.use(InputNumber)
 // Vue.use(CheckboxButton)
 // Vue.use(CheckboxGroup)
 // Vue.use(Switch)
-// Vue.use(Select)
-// Vue.use(Option)
+Vue.use(Select)
 // Vue.use(OptionGroup)
 Vue.use(Button)
 Vue.use(ButtonGroup)
@@ -108,8 +112,8 @@ Vue.use(TableColumn)
 Vue.use(DatePicker)
 Vue.use(TimeSelect)
 Vue.use(TimePicker)
-// Vue.use(Popover)
-// Vue.use(Tooltip)
+Vue.use(Popover)
+Vue.use(Tooltip)
 Vue.use(Breadcrumb)
 Vue.use(BreadcrumbItem)
 Vue.use(Form)
@@ -133,8 +137,8 @@ Vue.use(Card)
 // Vue.use(Step)
 // Vue.use(Carousel)
 // Vue.use(CarouselItem)
-Vue.use(Collapse)
-Vue.use(CollapseItem)
+// Vue.use(Collapse)
+// Vue.use(CollapseItem)
 // Vue.use(Cascader)
 // Vue.use(ColorPicker)
 // Vue.use(Transfer)
@@ -153,12 +157,12 @@ Vue.use(Image)
 Vue.use(PageHeader)
 // Vue.use(CascaderPanel)
 
-Vue.use(Loading.directive)
+// Vue.use(Loading.directive)
 
-Vue.prototype.$loading = Loading.service
+// Vue.prototype.$loading = Loading.service
 Vue.prototype.$message = Message
 // Vue.prototype.$msgbox = MessageBox
 // Vue.prototype.$alert = MessageBox.alert
-// Vue.prototype.$confirm = MessageBox.confirm
+Vue.prototype.$confirm = MessageBox.confirm
 // Vue.prototype.$prompt = MessageBox.prompt
 // Vue.prototype.$notify = Notification

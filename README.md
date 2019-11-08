@@ -35,5 +35,10 @@ npm run lint
 - localStorage cache
 - router permission
 
-
-
+### dev-user-admin
+- user account
+- user list
+- search user by keywords
+- create user
+- edit user
+- table pagination

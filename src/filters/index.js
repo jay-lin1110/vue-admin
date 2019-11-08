@@ -1,7 +1,7 @@
 import moment from 'moment'
 
-const momentFormat = (dateStr, pattern = 'YYYY-MM-DD') => moment(dateStr).format(pattern)
+const formatTime = (dateStr, pattern = 'YYYY-MM-DD hh:mm:ss') => moment(dateStr).format(pattern)
 
 export {
-  momentFormat
+  formatTime
 }

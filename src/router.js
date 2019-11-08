@@ -11,16 +11,17 @@ VueRouter.prototype.push = function push(location) {
   return originalPush.call(this, location).catch(err => err)
 }
 
-const InitTest = () => import('@/components/init-test')
 const UserSignup = () => import('@/views/user/user-signup')
 const UserSignin = () => import('@/views/user/user-signin')
 const NotFound = () => import('@/views/not-fonud')
+const AdminHome = () => import('@/views/home')
+const UserList = () => import('@/views/user/user-list')
 
 const Router = new VueRouter({
   routes: [
     {
       path: '/',
-      component: InitTest
+      redirect: '/user/signin'
     },
     {
       path: '/user/signin',
@@ -37,6 +38,26 @@ const Router = new VueRouter({
         isPublic: true,
         strTitle: '用户注册'
       }
+    },
+    {
+      path: '/home',
+      component: AdminHome,
+      meta: {
+        strTitle: '首页管理'
+      },
+      children: [
+        {
+          path: '/user',
+          redirect: '/user/list'
+        },
+        {
+          path: '/user/list',
+          component: UserList,
+          meta: {
+            strTitle: '用户列表'
+          }
+        }
+      ]
     },
     {
       path: '/404',
