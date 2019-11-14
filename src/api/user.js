@@ -21,6 +21,12 @@ const putUser = params => request({
   data: params.data
 })
 
+const patchUser = params => request({
+  url: `/api/admin/users/${params.id}`,
+  method: 'patch',
+  data: params.data
+})
+
 const deleteUser = id => request({
   url: `/api/admin/users/${id}`,
   method: 'delete'
@@ -43,6 +49,7 @@ export {
   getUsers,
   getUserById,
   putUser,
+  patchUser,
   deleteUser,
   signIn,
   signUp

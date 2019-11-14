@@ -16,6 +16,8 @@ const UserSignin = () => import('@/views/user/user-signin')
 const NotFound = () => import('@/views/not-fonud')
 const AdminHome = () => import('@/views/home')
 const UserList = () => import('@/views/user/user-list')
+const AuthorityList = () => import('@/views/authority/authority-list')
+const RoleList = () => import('@/views/authority/role-list')
 
 const Router = new VueRouter({
   routes: [
@@ -55,6 +57,20 @@ const Router = new VueRouter({
           component: UserList,
           meta: {
             strTitle: '用户列表'
+          }
+        },
+        {
+          path: '/authority/list',
+          component: AuthorityList,
+          meta: {
+            strTitle: '权限列表'
+          }
+        },
+        {
+          path: '/role/list',
+          component: RoleList,
+          meta: {
+            strTitle: '角色列表'
           }
         }
       ]

@@ -44,7 +44,7 @@
       </el-row>
       <!-- user table -->
       <el-row class="mt-3">
-        <el-table :data="tableData" class="w-100" highlight-current-row stripe>
+        <el-table :data="tableData" height="333" class="w-100" highlight-current-row stripe>
           <el-table-column label="序号" align="center" width="70">
             <template #default="{row}">
               <span>{{ setIndex(row) }}</span>
@@ -80,9 +80,16 @@
                 icon="el-icon-delete"
                 @click="handleDelete($index, row)"
               >删除</el-button>
+              <el-button
+                size="small"
+                type="warning"
+                icon="el-icon-setting"
+                @click="handleAuthorize(row)"
+              >授权</el-button>
             </template>
           </el-table-column>
         </el-table>
+        <!-- pagination area -->
         <el-pagination
           class="mt-3"
           background
@@ -107,6 +114,9 @@
         <el-breadcrumb separator-class="el-icon-d-arrow-right">
           <el-breadcrumb-item>
             <el-tag type="danger" effect="dark" color="#e25061">用户管理</el-tag>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <el-tag type="danger" effect="dark" color="#e25061">用户列表</el-tag>
           </el-breadcrumb-item>
           <el-breadcrumb-item v-if="dialogType === 'create'">
             <el-tag type="danger" effect="dark" color="#e25061">新建用户</el-tag>
@@ -160,11 +170,70 @@
         <el-button type="danger" @click.stop="closeDialog('dialogForm')">取 消</el-button>
       </template>
     </el-dialog>
+    <el-dialog
+      :visible.sync="isAuth"
+      :close-on-click-modal="false"
+      :show-close="false"
+      @close="resetForm('authForm')"
+    >
+      <template #title>
+        <el-breadcrumb separator-class="el-icon-d-arrow-right">
+          <el-breadcrumb-item>
+            <el-tag type="danger" effect="dark" color="#e25061">用户管理</el-tag>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <el-tag type="danger" effect="dark" color="#e25061">用户列表</el-tag>
+          </el-breadcrumb-item>
+          <el-breadcrumb-item>
+            <el-tag type="danger" effect="dark" color="#e25061">用户授权</el-tag>
+          </el-breadcrumb-item>
+        </el-breadcrumb>
+      </template>
+      <el-form
+        ref="authForm"
+        :model="authForm"
+        status-icon
+        hide-required-asterisk
+        label-position="left"
+        label-width="80px"
+        @submit.native.prevent
+      >
+        <el-form-item label="用户名称" prop="username">
+          <el-input prefix-icon="el-icon-user" v-model="authForm.username" disabled />
+        </el-form-item>
+
+        <el-form-item label="当前角色" prop="currentRole">
+          <el-input prefix-icon="el-icon-lock" v-model="authForm.currentRole" disabled />
+        </el-form-item>
+        <el-form-item label="用户授权" prop="role">
+          <el-select v-model="authForm.role" placeholder="请选择角色" clearable>
+            <el-option
+              v-for="item in roleOptions"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            ></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <template #footer class="dialog-footer">
+        <el-button type="primary" @click.stop="setRole()">确 定</el-button>
+        <el-button type="danger" @click.stop="closeAuth()">取 消</el-button>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getUsers, deleteUser, signUp, getUserById, putUser } from '@/api/user'
+import {
+  getUsers,
+  deleteUser,
+  signUp,
+  getUserById,
+  putUser,
+  patchUser
+} from '@/api/user'
+import { getRoles } from '@/api/role'
 import { CODE_OK } from '@/config'
 
 export default {
@@ -197,6 +266,13 @@ export default {
         numPageSize: 1,
         strLayout: 'total, sizes, prev, pager, next, jumper',
         numTotal: 0
+      },
+      isAuth: false,
+      roleOptions: [],
+      authForm: {
+        username: '',
+        currentRole: '',
+        role: ''
       },
       isVisible: false,
       dialogType: '',
@@ -277,6 +353,48 @@ export default {
       const { data } = await getUserById(row._id)
       this.objForm = { ...this.objForm, ...data }
       this.openDialog()
+    },
+    // open auth dialog and init role
+    async handleAuthorize(row) {
+      const { data } = await getRoles()
+      const currentUser = this.arrData.find(item => item.id === row.id)
+      const { username, role: currentRole } = currentUser
+      this.authForm = {
+        username,
+        currentRole: currentRole ? currentRole.name : ''
+      }
+      this.roleOptions = data
+      this.isAuth = true
+    },
+    // close auth dialog
+    closeAuth() {
+      this.isAuth = false
+    },
+    async setRole() {
+      try {
+        const currentUser = this.arrData.find(
+          item => item.username === this.authForm.username
+        )
+        const { id, username, email } = currentUser
+        const data = {
+          username,
+          email,
+          role: this.authForm.role
+        }
+        const params = {
+          id,
+          data
+        }
+        const { code } = await patchUser(params)
+        if (code !== CODE_OK) {
+          return this.$message.error('授权失败！QAQ')
+        }
+        this.$message.success('授权成功！=。=')
+        this.getTable()
+        this.closeAuth()
+      } catch (error) {
+        console.log('error===>' + error.message)
+      }
     },
     // handle delete operation
     async handleDelete(index, row) {
@@ -374,7 +492,7 @@ export default {
           this.$message.success('修改成功！=。=')
         }
         this.getTable()
-        this.closeDialog(formName)
+        this.closeDialog()
       } catch (error) {
         console.log('error===>' + error.message)
       }
@@ -382,18 +500,14 @@ export default {
     // reset form
     resetForm(formName) {
       this.$refs[formName].resetFields()
-      this.objForm = {
-        username: '',
-        email: '',
-        password: ''
-      }
+      this.authForm = this.objForm = {}
     },
     // open dialog
     openDialog() {
       this.isVisible = true
     },
     // close Dialog
-    closeDialog(formName) {
+    closeDialog() {
       this.isVisible = false
     }
   },

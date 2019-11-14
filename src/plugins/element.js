@@ -23,7 +23,7 @@ import {
   // Switch,
   Select,
   Option,
-  // OptionGroup,
+  OptionGroup,
   Button,
   ButtonGroup,
   Table,
@@ -40,7 +40,7 @@ import {
   // Tabs,
   // TabPane,
   Tag,
-  // Tree,
+  Tree,
   // Alert,
   // Slider,
   Icon,
@@ -104,7 +104,7 @@ Vue.use(Drawer)
 // Vue.use(CheckboxGroup)
 // Vue.use(Switch)
 Vue.use(Select)
-// Vue.use(OptionGroup)
+Vue.use(OptionGroup)
 Vue.use(Button)
 Vue.use(ButtonGroup)
 Vue.use(Table)
@@ -121,7 +121,7 @@ Vue.use(FormItem)
 // Vue.use(Tabs)
 // Vue.use(TabPane)
 Vue.use(Tag)
-// Vue.use(Tree)
+Vue.use(Tree)
 // Vue.use(Alert)
 // Vue.use(Slider)
 Vue.use(Icon)
